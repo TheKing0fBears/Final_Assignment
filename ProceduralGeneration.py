@@ -9,3 +9,5 @@ def start():
     for y in range(750):
       stroke(0,0,0,255.0*noise(x*noise_scale, y*noise_scale))
       point(x,y)
+
+      pen
