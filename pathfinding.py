@@ -83,18 +83,18 @@ class Node:
 	def __1t__(self,other):
 		return False
 	
-def h(p1,p2):
+  def h(p1,p2):
 	x1,y1=p1
 	x2,y2=p2
 	return abs(x1-x2)+abs(y1-y2)
 
-def construct_path(old,current,draw):
+  def construct_path(old,current,draw):
 	while current in old:
 		current=old[current]
 		current.make_path()
 		draw()
 
-def astar(draw,grid,start,ending):
+  def astar(draw,grid,start,ending):
 	count = 0
 	open_set = PriorityQueue()
 	open_set.put((0,count,start))
@@ -139,7 +139,7 @@ def astar(draw,grid,start,ending):
 		
 		return False
 
-def make_grid(rows, width):
+  def make_grid(rows, width):
 	grid = []
 	gap = width // rows
 	for i in range(rows):
@@ -151,7 +151,7 @@ def make_grid(rows, width):
 	return grid
 
 
-def draw_grid(win, rows, width):
+  def draw_grid(win, rows, width):
 	gap = width // rows
 	for i in range(rows):
 		pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))
@@ -159,7 +159,7 @@ def draw_grid(win, rows, width):
 			pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
 
 
-def draw(win, grid, rows, width):
+  def draw(win, grid, rows, width):
 	win.fill(WHITE)
 
 	for row in grid:
@@ -170,7 +170,7 @@ def draw(win, grid, rows, width):
 	pygame.display.update()
 
 
-def get_clicked_pos(pos, rows, width):
+  def get_clicked_pos(pos, rows, width):
 	gap = width // rows
 	y, x = pos
 
@@ -179,7 +179,7 @@ def get_clicked_pos(pos, rows, width):
 
 	return row, col
 	
-def main(win, width):
+  def main(win, width):
 	ROWS = 128
 	grid = make_grid(ROWS, width)
 
