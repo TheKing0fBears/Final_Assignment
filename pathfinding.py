@@ -35,6 +35,9 @@ class Node:
   
   def good_path(self):
     return self.color == GREEN
+
+  def obsticle(self):
+	return self.color == BLUE
   
   def starting(self):
     return self.color == WHITE
@@ -67,4 +70,48 @@ class Node:
   def draw(window,self.color,(self.x,self.y,self.width,self.width))
   
   #function to update neighboring nodes
-  def 
+  def update(self,grid):
+	self.neighbors = []
+	if self.row < self.total_rows -1 and not grid[self.row + 1][self.col].obsticle(): #look down
+	if self.row > 0 and not grid[self.row - 1][self.col].obsticle(): # look up
+		self.neighbors.append(grid[self.row - 1][self.col])
+	if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].obsticle(): #look right
+		self.neighbors.append(grid[self.row][self.col + 1])
+	if self.col > 0 and not grid[self.row][self.col - 1].obsticle(): # look left
+		self.neighbors.append(grid[self.row][self.col - 1])
+			
+	def __1t__(self,other):
+		return False
+	
+def dist(p1,p2):
+	x1,y1=p1
+	x2,y2=p2
+	return abs(x1-x2)+abs(y1-y2)
+
+def path(old,current,draw):
+	while current in old:
+		current=old[current]
+		current.make_path()
+		draw()
+
+def astar(draw,grid,start,end):
+	count = 0
+	open_set = PriorityQueue()
+	open_set.put((0,count,start))
+	old = {}
+	g_score = {spot: float("inf") for row in grid for spot in row}
+	g_score[start] = 0
+	f_score = {spot: float("inf") for row in grid for spot in row}
+	f_score[start] = dist(start.get_pos(), end.get_pos())
+	
+	open_set_hash = {start}
+	
+	while not open_set.empty()
+		for event in pygame.event.get()[2]
+			if event.type == pygame.QUIT:
+				pygame.quit()
+			
+			current = open_set
+	
+	
+	
