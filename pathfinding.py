@@ -94,7 +94,7 @@ def path(old,current,draw):
 		current.make_path()
 		draw()
 
-def astar(draw,grid,start,end):
+def astar(draw,grid,start,ending):
 	count = 0
 	open_set = PriorityQueue()
 	open_set.put((0,count,start))
@@ -102,7 +102,7 @@ def astar(draw,grid,start,end):
 	g_score = {spot: float("inf") for row in grid for spot in row}
 	g_score[start] = 0
 	f_score = {spot: float("inf") for row in grid for spot in row}
-	f_score[start] = dist(start.get_pos(), end.get_pos())
+	f_score[start] = dist(start.get_pos(), ending.get_pos())
 	
 	open_set_hash = {start}
 	
@@ -111,7 +111,13 @@ def astar(draw,grid,start,end):
 			if event.type == pygame.QUIT:
 				pygame.quit()
 			
-			current = open_set
+			current = open_set.get()[2]
+			open_set_hash.remove(current)
+			
+			if current == ending:
+				path(old,ending,draw)
+				ending.make_end()
+			
 	
 	
 	
