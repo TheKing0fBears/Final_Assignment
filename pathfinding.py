@@ -75,17 +75,17 @@ class Spot:
 	##This function will update neighboring spots##	
 	def update_neighbors(self, grid):
 		self.neighbors = []
-		if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): # DOWN
-			self.neighbors.append(grid[self.row + 1][self.col])
+		if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): #check if you can move down
+			self.neighbors.append(grid[self.row + 1][self.col])#add to neighbors
 
-		if self.row > 0 and not grid[self.row - 1][self.col].is_barrier(): # UP
-			self.neighbors.append(grid[self.row - 1][self.col])
+		if self.row > 0 and not grid[self.row - 1][self.col].is_barrier(): # check if you can move up
+			self.neighbors.append(grid[self.row - 1][self.col])#add to neighbors
 
-		if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier(): # RIGHT
-			self.neighbors.append(grid[self.row][self.col + 1])
+		if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier(): # check if you can move right
+			self.neighbors.append(grid[self.row][self.col + 1])#add to neighbors
 
-		if self.col > 0 and not grid[self.row][self.col - 1].is_barrier(): # LEFT
-			self.neighbors.append(grid[self.row][self.col - 1])
+		if self.col > 0 and not grid[self.row][self.col - 1].is_barrier(): # check if you can move left
+			self.neighbors.append(grid[self.row][self.col - 1])#add to neighbors
 
 	##--this function checks to see if the spot is less than another spot
 	def __lt__(self, other):
@@ -173,7 +173,7 @@ def draw_grid(win, rows, width):
 
 #This function is used to draw spots
 def draw(win, grid, rows, width):
-	win.fill(BLACK)
+	win.fill(BLACK)#fill window 
 
 	for row in grid:
 		for spot in row:
@@ -183,6 +183,7 @@ def draw(win, grid, rows, width):
 	pygame.display.update()
 
 
+#this function returns the coordinate of the clicked object
 def get_clicked_pos(pos, rows, width):
 	gap = width // rows
 	y, x = pos
@@ -194,7 +195,7 @@ def get_clicked_pos(pos, rows, width):
 
 
 def main(win, width):
-	ROWS = 128
+	ROWS = 50
 	grid = make_grid(ROWS, width)
 
 	start = None
@@ -207,7 +208,7 @@ def main(win, width):
 			if event.type == pygame.QUIT:
 				run = False
 
-			if pygame.mouse.get_pressed()[0]: # LEFT
+			if pygame.mouse.get_pressed()[0]: #left click
 				pos = pygame.mouse.get_pos()
 				row, col = get_clicked_pos(pos, ROWS, width)
 				spot = grid[row][col]
@@ -222,7 +223,7 @@ def main(win, width):
 				elif spot != end and spot != start:
 					spot.make_barrier()
 
-			elif pygame.mouse.get_pressed()[2]: # RIGHT
+			elif pygame.mouse.get_pressed()[2]: #right click
 				pos = pygame.mouse.get_pos()
 				row, col = get_clicked_pos(pos, ROWS, width)
 				spot = grid[row][col]
@@ -232,7 +233,7 @@ def main(win, width):
 				elif spot == end:
 					end = None
 
-			if event.type == pygame.KEYDOWN:
+			if event.type == pygame.KEYDOWN:#when space is pressed start the program
 				if event.key == pygame.K_SPACE and start and end:
 					for row in grid:
 						for spot in row:
@@ -240,7 +241,8 @@ def main(win, width):
 
 					algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
 
-				if event.key == pygame.K_c:
+				
+				if event.key == pygame.K_c:#when c is pressed reset the program
 					start = None
 					end = None
 					grid = make_grid(ROWS, width)
