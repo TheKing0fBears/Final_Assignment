@@ -30,22 +30,22 @@ class Node:
   def get_position(self):
     return self.row,self.col
   
-  def bad_path(self):
+  def is_closed(self):
     return self.color == RED
   
-  def good_path(self):
+  def is_open(self):
     return self.color == GREEN
 
-  def obsticle(self):
+  def is_barrier(self):
 	return self.color == BLUE
   
-  def starting(self):
+  def is_start(self):
     return self.color == WHITE
   
-  def ending(self):
+  def is_end(self):
     return self.color ==WHITE
   
-  def reset_node(self):
+  def reset(self):
     return self.color == BLACK
   
   def make_start(self):
@@ -54,16 +54,16 @@ class Node:
   def make_end(self):
 		self.color = WHITE
 
-	def make_bad(self):
+  def make_bad(self):
 		self.color = RED
 
-	def make_good(self):
+  def make_good(self):
 		self.color = GREEN
 
-	def make_obsticle(self):
+  def make_obsticle(self):
 		self.color = BLUE
     
-	def make_path(self):
+  def make_path(self):
 		self.color = YELLOW
 
  #function to draw rectangles on screen
@@ -72,23 +72,23 @@ class Node:
   #function to update neighboring nodes
   def update_neighbors(self,grid):
 	self.neighbors = []
-	if self.row < self.total_rows -1 and not grid[self.row + 1][self.col].obsticle(): #look down
-	if self.row > 0 and not grid[self.row - 1][self.col].obsticle(): # look up
+	if self.row < self.total_rows -1 and not grid[self.row + 1][self.col].is_barrier(): #look down
+	if self.row > 0 and not grid[self.row - 1][self.col].is_barrier(): # look up
 		self.neighbors.append(grid[self.row - 1][self.col])
-	if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].obsticle(): #look right
+	if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier(): #look right
 		self.neighbors.append(grid[self.row][self.col + 1])
-	if self.col > 0 and not grid[self.row][self.col - 1].obsticle(): # look left
+	if self.col > 0 and not grid[self.row][self.col - 1].is_barrier(): # look left
 		self.neighbors.append(grid[self.row][self.col - 1])
 			
 	def __1t__(self,other):
 		return False
 	
-def dist(p1,p2):
+def h(p1,p2):
 	x1,y1=p1
 	x2,y2=p2
 	return abs(x1-x2)+abs(y1-y2)
 
-def path(old,current,draw):
+def construct_path(old,current,draw):
 	while current in old:
 		current=old[current]
 		current.make_path()
@@ -180,7 +180,7 @@ def get_clicked_pos(pos, rows, width):
 	return row, col
 	
 def main(win, width):
-	ROWS = 50
+	ROWS = 128
 	grid = make_grid(ROWS, width)
 
 	start = None
@@ -230,4 +230,5 @@ def main(win, width):
 					start = None
 					end = None
 					grid = make_grid(ROWS, width)	
-	
+	pygame.quit()
+main(WIN,SIZE)
