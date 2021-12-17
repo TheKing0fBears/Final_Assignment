@@ -2,9 +2,9 @@ import pygame#using pygame library for graphical display
 import math
 from queue import PriorityQueue
 
-WIDTH = 800
+WIDTH = 1000#size of the screen
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
-pygame.display.set_caption("Pathfinding")
+pygame.display.set_caption("Pathfinding_Final_Kyle")
 
 #colors for the display
 BLACK = (0,0,0)
@@ -91,7 +91,7 @@ class Spot:
 	def __lt__(self, other):
 		return False
 
-##This function checks the distance between two points##
+##This function checks the distance between two points heuristically##
 def h(p1, p2):
 	x1, y1 = p1
 	x2, y2 = p2
@@ -104,48 +104,48 @@ def reconstruct_path(came_from, current, draw):
 		current.make_path()
 		draw()
 
-
+##This function is the algorithm for an a* pathfinding system
 def algorithm(draw, grid, start, end):
 	count = 0
 	open_set = PriorityQueue()
 	open_set.put((0, count, start))
 	came_from = {}
-	g_score = {spot: float("inf") for row in grid for spot in row}
-	g_score[start] = 0
-	f_score = {spot: float("inf") for row in grid for spot in row}
-	f_score[start] = h(start.get_pos(), end.get_pos())
+	g_score = {spot: float("inf") for row in grid for spot in row}#start at infinity because nothing is there
+	g_score[start] = 0#initialize g score at 0
+	f_score = {spot: float("inf") for row in grid for spot in row}#start at infinity because nothing is there
+	f_score[start] = h(start.get_pos(), end.get_pos())#initialize h score with the positions of the end and start
 
-	open_set_hash = {start}
+	open_set_hash = {start}#make set for the priority queue to keep track of items
 
-	while not open_set.empty():
+	while not open_set.empty():#checks to see if the open set is empty suggesting that the path doesnt exist if the end isnt found
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
-				pygame.quit()
+				pygame.quit()#quit the program
 
-		current = open_set.get()[2]
-		open_set_hash.remove(current)
+		current = open_set.get()[2]#start spot
+		open_set_hash.remove(current)#remove the current spot from the hash to get rid of residue
 
 		if current == end:
-			reconstruct_path(came_from, end, draw)
-			end.make_end()
+			reconstruct_path(came_from, end, draw)#create the path to the end
+			end.make_end()#make the end the correct color again
 			return True
 
 		for neighbor in current.neighbors:
 			temp_g_score = g_score[current] + 1
 
-			if temp_g_score < g_score[neighbor]:
-				came_from[neighbor] = current
-				g_score[neighbor] = temp_g_score
+			if temp_g_score < g_score[neighbor]:#if better path is found than neighbor
+				came_from[neighbor] = current 
+				g_score[neighbor] = temp_g_score 
 				f_score[neighbor] = temp_g_score + h(neighbor.get_pos(), end.get_pos())
-				if neighbor not in open_set_hash:
+				if neighbor not in open_set_hash:#add neighbor into queue
 					count += 1
 					open_set.put((f_score[neighbor], count, neighbor))
 					open_set_hash.add(neighbor)
-					neighbor.make_open()
+					neighbor.make_open()#open the next neighbor to be checked
 
 		draw()
 
-		if current != start:
+		if current != start:#close if not the start or a neighbor
 			current.make_closed()
 
 	return False
@@ -195,7 +195,7 @@ def get_clicked_pos(pos, rows, width):
 
 
 def main(win, width):
-	ROWS = 50
+	ROWS = 100
 	grid = make_grid(ROWS, width)
 
 	start = None
@@ -249,4 +249,5 @@ def main(win, width):
 
 	pygame.quit()
 
+#run program
 main(WIN, WIDTH)
