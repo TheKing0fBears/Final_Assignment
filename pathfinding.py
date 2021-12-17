@@ -1,4 +1,4 @@
-import pygame
+import pygame#using pygame library for graphical display
 import math
 from queue import PriorityQueue
 
@@ -15,7 +15,10 @@ BLUE = (0,0,255)
 YELLOW = (255,255,0)
 GREY = (128, 128, 128)
 
+
+#class for the different spots on the grid
 class Spot:
+	#simplification of variables for later use
 	def __init__(self, row, col, width, total_rows):
 		self.row = row
 		self.col = col
@@ -26,48 +29,50 @@ class Spot:
 		self.width = width
 		self.total_rows = total_rows
 
-	def get_pos(self):
+	def get_pos(self):#gets current position of a spot on grid
 		return self.row, self.col
 
-	def is_closed(self):
+	def is_closed(self):#checks to see if a spot is closed
 		return self.color == RED
 
-	def is_open(self):
+	def is_open(self):#checks to see if a spot is open
 		return self.color == GREEN
 
-	def is_barrier(self):
+	def is_barrier(self):#checks to see if a spot is a barrier
 		return self.color == WHITE
 
-	def is_start(self):
+	def is_start(self):#the start of the pathing
 		return self.color == BLUE
 
-	def is_end(self):
+	def is_end(self):#the end of the pathing
 		return self.color == BLUE
 
-	def reset(self):
+	def reset(self):#reset the grid
 		self.color = BLACK
 
-	def make_start(self):
+	def make_start(self):#creates the start of the path
 		self.color = BLUE
 
-	def make_closed(self):
+	def make_closed(self):#closes a spot for testing
 		self.color = RED
 
-	def make_open(self):
+	def make_open(self):#means that the spot is open to be tested
 		self.color = GREEN
 
-	def make_barrier(self):
+	def make_barrier(self):#creates an obsticle for the path to move around
 		self.color = WHITE
 
-	def make_end(self):
+	def make_end(self):#makes the ending point
 		self.color = BLUE
 
-	def make_path(self):
+	def make_path(self):#final path
 		self.color = YELLOW
 
-	def draw(self, win):
+	def draw(self, win):#draws a spot on the grid
 		pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
+		
+	##--This function will update neighboring spots	
 	def update_neighbors(self, grid):
 		self.neighbors = []
 		if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): # DOWN
@@ -82,6 +87,7 @@ class Spot:
 		if self.col > 0 and not grid[self.row][self.col - 1].is_barrier(): # LEFT
 			self.neighbors.append(grid[self.row][self.col - 1])
 
+	##--this function checks to see if the spot is less than another spot
 	def __lt__(self, other):
 		return False
 
