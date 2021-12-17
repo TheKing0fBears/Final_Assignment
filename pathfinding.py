@@ -72,7 +72,7 @@ class Spot:
 		pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
 		
-	##--This function will update neighboring spots	
+	##This function will update neighboring spots##	
 	def update_neighbors(self, grid):
 		self.neighbors = []
 		if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): # DOWN
@@ -91,13 +91,13 @@ class Spot:
 	def __lt__(self, other):
 		return False
 
-
+##This function checks the distance between two points##
 def h(p1, p2):
 	x1, y1 = p1
 	x2, y2 = p2
 	return abs(x1 - x2) + abs(y1 - y2)
 
-
+##This function will recreate the shortest path needed to reach the end goal##
 def reconstruct_path(came_from, current, draw):
 	while current in came_from:
 		current = came_from[current]
@@ -150,29 +150,30 @@ def algorithm(draw, grid, start, end):
 
 	return False
 
-
+##this function will create the grid##
 def make_grid(rows, width):
 	grid = []
 	gap = width // rows
 	for i in range(rows):
 		grid.append([])
 		for j in range(rows):
-			spot = Spot(i, j, gap, rows)
-			grid[i].append(spot)
+			spot = Spot(i, j, gap, rows)#create spot object
+			grid[i].append(spot)#add spot into grid
 
 	return grid
 
 
+##This function will actually draw the grid into the pygame window##
 def draw_grid(win, rows, width):
 	gap = width // rows
 	for i in range(rows):
-		pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))
+		pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))#draws line on the horizontal for each row
 		for j in range(rows):
-			pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
+			pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))#draws line on vertical for each row
 
-
+#This function is used to draw spots
 def draw(win, grid, rows, width):
-	win.fill(WHITE)
+	win.fill(BLACK)
 
 	for row in grid:
 		for spot in row:
