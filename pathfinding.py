@@ -91,7 +91,7 @@ class Spot:
 	def __lt__(self, other):
 		return False
 
-##This function checks the distance between two points heuristically##
+##This function checks the distance between two points witha heuristic algorithm##
 def h(p1, p2):
 	x1, y1 = p1
 	x2, y2 = p2
