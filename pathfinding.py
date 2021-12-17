@@ -13,6 +13,7 @@ GREEN = (0,255,0)
 WHITE = (255,255,255)
 BLUE = (0,0,255)
 YELLOW = (255,255,0)
+GREY = (128, 128, 128)
 
 class Spot:
 	def __init__(self, row, col, width, total_rows):
